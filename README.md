@@ -2,9 +2,11 @@
 
 This repository provides a collection of applications based on the [RIOT operating system](https://github.com/RIOT-OS/RIOT). The applications showcase specific functionalities of the RIOT operating system and how to build an IoT platform using an [STM32 Nucleo-64 development board](https://www.st.com/en/evaluation-tools/nucleo-f401re.html).
 
-## List of Examples
+## List of Applications
 
 - [Measuring Ambient Light Intensity](photocell) - The application demonstrates how to use an analog sensor through the ADC module.
+  - The application provides some insights on the inner functionality of the XTIMER module of RIOT OS.
+  - Some details are also provided on how IoT boards are defined in RIOT OS as part of the platform-independent layers.
 
 ## STM32 Nucleo-64 F401RE development board
 
