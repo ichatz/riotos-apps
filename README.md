@@ -7,6 +7,9 @@ This repository provides a collection of applications based on the [RIOT operati
 - [Measuring Ambient Light Intensity](photocell) - The application demonstrates how to use an analog sensor through the ADC module.
   - The application provides some insights on the inner functionality of the XTIMER module of RIOT OS.
   - Some details are also provided on how IoT boards are defined in RIOT OS as part of the platform-independent layers.
+  - [Measuring Ambient Temperature and Humidity](temperature_humidity) - The application demonstrates how to use a digital sensor through the provided RIOT driver.
+    - The application provides some insights on the inner functionality of the PM module of RIOT OS.
+  - Some details are also provided on how to measure the power consumption of an IoT board.
 
 ## STM32 Nucleo-64 F401RE development board
 
