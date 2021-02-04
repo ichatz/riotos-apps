@@ -15,16 +15,22 @@ The [STM32 Nucleo-64 F401RE](https://www.st.com/en/evaluation-tools/nucleo-f401r
 
 ## Hardware setup of the Photocell with the STM32 Nucleo-64 F401RE board
 
-The photocell is a light-controlled variable resistor. When the photocell is struck
-by light it drastically decreases its resistance until it reaches 500Ohm. In the absence of ambient light, the resistance of the photocell will become so high as 50KOhm which practically is non-conductive.
+The photocell is a light-controlled variable resistor. When the photocell is struck by light it drastically decreases its resistance until it reaches 500Ohm. In the absence of ambient light, the resistance of the photocell will become so high as 50KOhm which practically is non-conductive.
 
-In order to monitor the varying resistance of the photocell we will use the STM32 Nucleo board's analog input. The simplest way to do this is to combine the photocell with a fixed 1KOhm resistor to create a potentiometer-like behavior. When the light is very bright, then the resistance of the photocell is very low compared with the fixed value resistor, and so it is as if the potentiometer was turned to maximum. When the photocell is in dull light, the resistance becomes greater than the fixed 1KOhm resistor and it is as if the potentiometer was being turned towards GND.
+In order to monitor the varying resistance of the photocell we will use the STM32 Nucleo board's analog input and the 5V supply. We wish use the analog input to measure the analog voltage, that range from 5V to 0V, depending on the internal resistance of the photocell. To do this, we will combine the photocell with a fixed 1KOhm resistor to create a potentiometer-like behavior. When the light is very bright, then the resistance of the photocell is very low compared with the fixed value resistor (also known as _pulldown resistor_), and so it is as if the potentiometer was turned to maximum. When the photocell is in dull light, the resistance becomes greater than the fixed 1KOhm resistor and it is as if the potentiometer was being turned towards GND.
 
 Position the photocell and the 1KOhm resistor in series using three vertical columns of the breadboard. Use a jumper wire to connect the top connector of the photocell with the **5V pin** of the STM32 Nucleo board. Connect the bottom connector of the photocell - the one that is connected with the 1KOhm resistor - with the **A0 pin** of the STM32 Nucleo board. Finally connect the bottom connector of the 1KOhm resistor with the **GND pin** of the STM32 Nucleo board.
 
 The wiring of the components is shown in the figure below.
 
 ![Wiring of hardware components](circuit/circuit_bb.png)
+
+
+|_Note on Fixed Resistance_|
+|---|
+| In the above circuit we use a fixed 1KOhm resistor in combination with the 5V power supply. Note that we can also use the 3.3V supply. We can also use a different fixed resistor. The selection of the fixed resistance and the power supply depends on the intensity of the ambient light that we wish to measure. For example if we deploy our sensor in an ambient that usually is brightly illuminated, the 1KOhm resistor will quickly _saturate_. This means that as the internal resistance of the photocell reaches lower values, the difference in the voltage between the photocell and the fixed resistor (voltage measured by the A0 pin) will reach very fast the maximum voltage of 5V (or 3.3V). Therefore, if we wish to be able to differentiate the intensity of ambient light it might be more convenient to increase the fixed resistor to 10KOhm or even higher values. Similarly, if we wish to be able to differentiate between a dark and a very dark ambient, a smaller resistance (e.g., 500Ohm or 300Ohm) will work better. [The AdaFruit tutorial on Photocells](https://learn.adafruit.com/photocells/using-a-photocell) provides a more detailed discussion on how this circuit works, and also gives insights on how to use the "Axel Benz" formula to determine the resistor value that is more suitable for our application. |
+
+
 
 ## Setting up the ADC in the RIOT operating system
 
