@@ -34,11 +34,11 @@
 
 int main(void)
 {
-    printf("\nRIOT Photocell application\n");
-    printf("Measure the intensity of ambient light using a photocell\n");
-    printf("connected to the Analog input of the STM32 Nucleo-64 board.\n");
-    printf("The sensor is sampled through the ADC lines once every 100ms\n");
-    printf("with a 12-bit resolution and print the sampled results to STDIO\n");
+    printf("\nRIOT Photocell application\n"
+           "Measure the intensity of ambient light using a photocell\n"
+           "connected to the Analog input of the STM32 Nucleo-64 board.\n"
+           "The sensor is sampled through the ADC lines once every 100ms\n"
+           "with a 12-bit resolution and print the sampled results to STDIO\n");
 
     /* initialize the ADC line */
     if (adc_init(ADC_IN_USE) < 0) {
@@ -47,7 +47,6 @@ int main(void)
     }
     else {
         printf("Successfully initialized ADC_LINE(%u)\n", ADC_IN_USE);
-
     }
 
     xtimer_ticks32_t last = xtimer_now();
