@@ -2,7 +2,9 @@
 
 Measure the intensity of ambient light with an [STM32 Nucleo-64 F401RE development board](https://www.st.com/en/evaluation-tools/nucleo-f401re.html) and the [RIOT operating system](https://github.com/RIOT-OS/RIOT).
 
-## For this application we will use
+A [video tutorial](https://youtu.be/Xw8a_NSvvvI) is available on YouTube.
+
+## For this mapplication we will use
 - STM32 Nucleo-64 F401RE
 - Breadboard
 - 1KOhm resistor
