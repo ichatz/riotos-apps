@@ -16,11 +16,6 @@
  * @}
  */
 
-#include <stdio.h>
-#include <math.h>
-
-#include "cpu.h"
-#include "board.h"
 #include "xtimer.h"
 #include "periph/adc.h"
 #include "periph/gpio.h"
@@ -30,7 +25,6 @@
 #define ADC_RES                     ADC_RES_12BIT
 
 #define DELAY                       (100LU * US_PER_MS) /* 100 ms */
-
 
 int main(void)
 {
