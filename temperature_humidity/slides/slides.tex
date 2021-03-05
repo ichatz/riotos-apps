@@ -1,0 +1,354 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{xspace}
+\usepackage{tikz}
+\usepackage{url,color,minted}
+\usepackage{pgf,pgflibraryshapes}
+\usetikzlibrary{shadows,arrows}
+
+\usepackage[siunitx]{circuitikz}
+
+\tikzstyle{linedot} = [draw, thick, color=black!50, dotted]
+\tikzstyle{linepart} = [draw, thick, color=black!50, dashed]
+\tikzstyle{linegrey} = [draw, thick, color=black!50]
+\tikzstyle{linesolid} = [draw, thick, color=black, -latex', align=center]
+
+\tikzstyle{ellipsesolid} = [draw, ultra thick, color=blue, ellipse, -latex', align=center]
+
+
+
+\graphicspath{{./fig/},{../circuit/}}
+
+\mode<presentation> { % handout / presentation
+	\usetheme{Darmstadt}
+	\setbeamertemplate{navigation symbols}{}
+	\defbeamertemplate*{footline}{infolines2 theme}{
+	  \leavevmode%
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex,right]{quaternary}%	 
+	    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex} 
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	}
+  
+  \setbeamercolor*{palette primary}{use=structure,fg=black,bg=structure.fg!40!white}
+  \setbeamercolor*{palette secondary}{use=structure,fg=black,bg=structure.fg!60!white}
+  \setbeamercolor*{palette tertiary}{use=structure,fg=black,bg=structure.fg!90!white}
+  \setbeamercolor*{palette quaternary}{fg=white,bg=black}
+
+  \setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
+
+  \setbeamercolor*{palette sidebar primary}{use=structure,fg=structure.fg!10}
+  \setbeamercolor*{palette sidebar secondary}{fg=white}
+  \setbeamercolor*{palette sidebar tertiary}{use=structure,fg=structure.fg!50}
+  \setbeamercolor*{palette sidebar quaternary}{fg=white}
+
+  \setbeamercolor*{titlelike}{parent=palette primary}
+
+  \setbeamercolor*{separation line}{}
+  \setbeamercolor*{fine separation line}{}
+}
+
+\pgfdeclareimage[height=1cm]{logoRIOT}{fig/RIOT_logo.png}
+\pgfdeclareimage[height=1cm]{logoSTM32}{fig/STM32_logo.png}
+
+\title[Lecture 1]{How to use a Digital Sensor with RIOT}
+\subtitle{using an STM32 Nucleo-64 F401RE development board}
+
+\author[I.Chatzigiannakis]{Ioannis Chatzigiannakis}
+
+\institute{\url{https://github.com/ichatz/riotos-apps}}
+
+\date{}
+
+\logo{\pgfuseimage{logoRIOT}\pgfuseimage{logoSTM32}}
+
+\begin{document}
+
+{
+\setbeamercolor{upper separation line head}{fg=white, bg=white}
+\setbeamercolor{lower separation line head}{fg=white, bg=white}
+\setbeamercolor{title in head/foot}{fg=white, bg=white}
+\setbeamercolor{institute in head/foot}{fg=white, bg=white}
+\setbeamercolor{date in head/foot}{fg=white, bg=white}
+\setbeamercolor{author in head/foot}{fg=white, bg=white}
+\setbeamercolor{date in head/foot}{fg=white, bg=white}
+\setbeamercolor{section in head/foot}{fg=white, bg=white}
+\setbeamercolor{subsection in head/foot}{fg=white, bg=white}
+\setbeamercolor{subsubsection in head/foot}{fg=white, bg=white}
+\setbeamercolor{quaternary}{fg=white, bg=white}
+\setbeamertemplate{headline}{}
+
+\frame{\titlepage}
+
+}
+
+\section{How to use a Digital Sensor with RIOT}
+
+\subsection{}
+
+%_____________________________________________________________
+\begin{frame}{}
+
+\begin{block}{}
+Low-power measurement of the ambient temperature and humidity with an \href{https://www.st.com/en/evaluation-tools/nucleo-f401re.html}{STM32 Nucleo-64 F401RE development board} and the \href{https://github.com/RIOT-OS/RIOT}{RIOT operating system}.
+\end{block}
+
+\bigskip
+
+Required hardware components:
+
+\begin{itemize}
+	
+\item STM32 Nucleo-64 F401RE
+
+\item DHT22 digital sensor
+
+\item 3 Female to male jumper wires
+
+\end{itemize}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}{}
+\begin{columns}
+
+\column{.75\textwidth}
+\begin{itemize}
+
+\item The DHT22 digital sensor is a widely diffused component
+
+\begin{itemize}
+
+\item Measures temperature and relative humidity
+
+\item Uses a custom protocol which use a single wire/bus for communication. 
+
+\end{itemize}
+
+\item The DATA wire used for communication between STM32 MCU and the DHT22.
+
+\begin{itemize}
+
+\item A 4.7K or 10K pull-up resistor is used to bring the bus in an IDLE state when there is no communication taking place.
+
+\item  A continuous HIGH on the line denote an IDLE state.
+
+\item The STM32 MCU acts as the bus controller and hence is responsible for initiating communication (i.e., read).
+
+\end{itemize}
+
+\end{itemize}
+
+\column{.25\textwidth}
+\centering
+\includegraphics[width=\textwidth]{dht22}
+\vspace{1cm}
+
+\end{columns}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}{DHT22 Communication Protocol}
+\begin{enumerate}
+
+\item The STM32 MCU pulls it to a LOW for 18ms and HIGH for around 20 to 40us.
+\item DHT22 detects a START and responds by pulling the line LOW for 80$\mu$s.
+\item DHT22 pulls it HIGH for 80$\mu$s which indicates that it is ready to send 40 bits  data.
+\item Each bit starts with a 50$\mu$s LOW followed by 26-28$\mu$s for a ``0'' or 70$\mu$s for a ``1''.
+\item To ends, the Line is pulled HIGH by the pull-up resistor and enters IDLE state.
+
+\end{enumerate}
+
+\centering
+\includegraphics[width=.65\textwidth]{dht22_protocol}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}{DHT22 Data Format}
+\begin{enumerate}
+
+\item 1st Byte: Relative Humidity Integral Data in \% (Integer Part)
+\item 2nd Byte: Relative Humidity Decimal Data in \% (Fractional Part) – Zero for DHT11
+\item 3rd Byte: Temperature Integral in Degree Celsius (Integer Part)
+\item 4th Byte: Temperature in Decimal Data in \% (Fractional Part) – Zero for DHT11
+\item 5th Byte: Checksum (Last 8 bits of {1st Byte + 2nd Byte + 3rd Byte+ 4th Byte})
+
+\end{enumerate}
+
+\centering
+\includegraphics[width=.65\textwidth]{dht22_data_format}
+\end{frame}
+
+
+
+%_____________________________________________________________
+\begin{frame}{}
+\hspace*{1cm}
+\includegraphics[width=.65\textwidth]{circuit_bb}
+\end{frame}
+
+
+
+
+%=============================================================
+\subsection{The RIOT operating system}
+\logo{\pgfuseimage{logoRIOT}}
+
+
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{Hardware Independent elements}
+\vspace{-.5cm}
+\begin{columns}
+
+\column{.5\textwidth}
+\begin{exampleblock}{Makefile}
+\begin{minted}{c}
+# name of application
+APPLICATION = photocell
+
+# Path to the RIOT base directory:
+RIOTBASE ?= $(CURDIR)/../../RIOT
+
+# Modules to include:
+USEMODULE += dht
+USEMODULE += fmt	
+
+# RIOT features
+FEATURES_OPTIONAL += periph_rtc
+\end{minted}
+\end{exampleblock}
+%$
+
+\column{.4\textwidth}
+
+\vspace{4.45cm}
+
+We wish to use the \alert{DHT module}.\\
+\alert{FMT} = Format Module to help with the DHT protocol.
+
+\bigskip
+
+The \alert{RTC} module used for power management.
+
+\column{.1\textwidth}
+
+\end{columns}
+\vspace{4cm}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{}
+
+\begin{exampleblock}{main.c}
+\begin{minted}{c}
+int main(void) {
+    dht_params_t my_params;
+    my_params.pin = GPIO_PIN(PORT_A, 10);
+    my_params.type = DHT_PARAM_TYPE;
+    my_params.in_mode = DHT_PARAM_PULL;
+
+    dht_t dev;
+    if (dht_init(&dev, &my_params) == DHT_OK) {
+        printf("DHT sensor connected\n");
+    }
+}
+\end{minted}
+\end{exampleblock}
+
+\begin{itemize}
+
+\item Use the \mintinline{c}{struct dht_params_t} to provide the PIN used.
+
+\end{itemize}
+
+\vspace{2cm}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{}
+
+\begin{exampleblock}{}
+\begin{minted}[fontsize=\small]{c}
+int main(void) {
+    int16_t temp, hum;
+    if (dht_read(&dev, &temp, &hum) != DHT_OK) {
+        printf("Error reading values\n");
+    }
+    
+    char temp_s[10];
+    size_t n = fmt_s16_dfp(temp_s, temp, -1);
+    temp_s[n] = '\0';
+    
+    char hum_s[10];
+    n = fmt_s16_dfp(hum_s, hum, -1);
+    hum_s[n] = '\0';        
+
+    printf("DHT values - temp: %s°C - relative humidity: %s%%\n",
+           temp_s, hum_s);
+}
+\end{minted}
+\end{exampleblock}
+\vspace{2cm}
+\end{frame}
+
+%_____________________________________________________________
+\begin{frame}[fragile]{}
+
+\begin{exampleblock}{}
+\begin{minted}[fontsize=\small]{c}
+int main(void) {
+    const int mode = 0;
+    const int delay = 5;
+
+    printf("Setting wakeup from mode %d in %d seconds.\n", mode, delay);
+    fflush(stdout);
+
+    /* Setting a timer on the RTC */
+    struct tm time;
+    rtc_get_time(&time);
+    time.tm_sec += delay;
+    rtc_set_alarm(&time, callback_rtc, "Wakeup alarm");
+
+    /* Enter deep sleep mode */
+    pm_set(mode); 
+}
+\end{minted}
+\end{exampleblock}
+\vspace{2cm}
+\end{frame}
+
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{}
+\begin{itemize}
+
+\item Setting an alarm to the RTC requires a callback function.
+
+\end{itemize}
+
+\vspace{.5cm}
+
+\begin{exampleblock}{main.c}
+\begin{minted}{c}
+/**
+ * Call-back function invoked when RTC alarm triggers wakeup.
+ */
+static void callback_rtc(void *arg)
+{
+    puts(arg);
+}
+\end{minted}
+\end{exampleblock}
+
+\vspace{2cm}
+\end{frame}
+\end{document}
+
