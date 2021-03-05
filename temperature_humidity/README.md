@@ -4,9 +4,8 @@ Measure the ambient temperature and humidity with an [STM32 Nucleo-64 F401RE dev
 
 ## For this application we will use
 - STM32 Nucleo-64 F401RE
-- Breadboard
 - DHT22 digital sensor
-- 3 Male to male jumper wires
+- 3 Female to male jumper wires
 
 ## STM32 Nucleo-64 F401RE development board
 
