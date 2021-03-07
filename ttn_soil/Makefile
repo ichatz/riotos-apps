@@ -7,9 +7,9 @@ BOARD ?= b-l072z-lrwan1
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
-DEVEUI ?= 00A296744076D296
-APPEUI ?= 70B3D57ED00084D8
-APPKEY ?= F5ABE2F1A70D88DA7A18DFE4813A87A2
+DEVEUI ?= # Provided from console.thethingsnetwork.org
+APPEUI ?= # Provided from console.thethingsnetwork.org
+APPKEY ?= # Provided from console.thethingsnetwork.org
 
 # Default radio driver is Semtech SX1276 (used by the B-L072Z-LRWAN1 board)
 DRIVER ?= sx1276
