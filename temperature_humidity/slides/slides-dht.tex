@@ -94,7 +94,7 @@
 \begin{frame}{}
 
 \begin{block}{}
-Low-power measurement of the ambient temperature and humidity with an \href{https://www.st.com/en/evaluation-tools/nucleo-f401re.html}{STM32 Nucleo-64 F401RE development board} and the \href{https://github.com/RIOT-OS/RIOT}{RIOT operating system}.
+Measure the ambient temperature and humidity with an \href{https://www.st.com/en/evaluation-tools/nucleo-f401re.html}{STM32 Nucleo-64 F401RE development board} and the \href{https://github.com/RIOT-OS/RIOT}{RIOT operating system}.
 \end{block}
 
 \bigskip
@@ -186,10 +186,10 @@ Required hardware components:
 \begin{enumerate}
 
 \item<1-> 1st Byte: Relative Humidity Integral Data in \% (Integer Part)
-\item<2-> 2nd Byte: Relative Humidity Decimal Data in \% (Fractional Part) – Zero for DHT11
+\item<2-> 2nd Byte: Relative Humidity Decimal Data in \% (Fractional Part)
 \item<3-> 3rd Byte: Temperature Integral in Degree Celsius (Integer Part)
-\item<4-> 4th Byte: Temperature in Decimal Data in \% (Fractional Part) – Zero for DHT11
-\item<5-> 5th Byte: Checksum (Last 8 bits of {1st Byte + 2nd Byte + 3rd Byte+ 4th Byte})
+\item<4-> 4th Byte: Temperature in Decimal Data in \% (Fractional Part) 
+\item<5-> 5th Byte: Checksum (Last 2 bits of {1st Byte + 2nd Byte + 3rd Byte+ 4th Byte})
 
 \end{enumerate}
 
@@ -240,8 +240,8 @@ BOARD ?= nucleo-f401re
 
 RIOTBASE ?= $(CURDIR)/../RIOT
 
-DEVELHELP ?= 1
 QUIET ?= 0
+DEVELHELP ?= 1
 
 include $(RIOTBASE)/Makefile.include
 \end{minted}
@@ -329,8 +329,8 @@ ichatz:~/myapp# make term
 
 
 %_____________________________________________________________
-\begin{frame}[fragile]{Hardware Independent elements}
-\vspace{-.5cm}
+\begin{frame}[fragile]{Using the DHT22 Driver of RIOT}
+
 \begin{columns}
 
 \column{.52\textwidth}
@@ -344,8 +344,9 @@ RIOTBASE ?= $(CURDIR)/../RIOT
 USEMODULE += dht
 USEMODULE += fmt	
 
-DEVELHELP ?= 1
 QUIET ?= 0
+DEVELHELP ?= 1
+
 include $(RIOTBASE)/Makefile.include
 \end{minted}
 \end{exampleblock}
@@ -377,25 +378,23 @@ $\leftarrow$ \alert{FMT} = Format Module to help with the DHT protocol.
 
 \begin{exampleblock}{main.c}
 \begin{minted}{c}
+#include "fmt.h"
+#include "dht.h"
+#include "dht_params.h"
+
 int main(void) {
     dht_params_t my_params;
     my_params.pin = GPIO_PIN(PORT_A, 10);
-    my_params.type = DHT_PARAM_TYPE;
+    my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
 
     dht_t dev;
     if (dht_init(&dev, &my_params) == DHT_OK) {
         printf("DHT sensor connected\n");
     }
-}
+
 \end{minted}
 \end{exampleblock}
-
-\begin{itemize}
-
-\item Use the \mintinline{c}{struct dht_params_t} to provide the PIN used.
-
-\end{itemize}
 
 \vspace{5cm}
 \end{frame}
@@ -409,7 +408,7 @@ int main(void) {
 
 \begin{exampleblock}{}
 \begin{minted}[fontsize=\small]{c}
-int main(void) {
+
     int16_t temp, hum;
     if (dht_read(&dev, &temp, &hum) != DHT_OK) {
         printf("Error reading values\n");

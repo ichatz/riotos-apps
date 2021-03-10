@@ -19,8 +19,6 @@
 
 #include <stdio.h>
 
-#define DHT_PARAM_TYPE              (DHT22)
-
 #include "fmt.h"
 #include "dht.h"
 #include "dht_params.h"
@@ -41,12 +39,12 @@ int main(void)
     printf("RIOT temperature_humidity application\n"
            "DHT temperature and humidity sensor test application\n"
            "using RIOT DHT peripheral driver\n"
-           "DHT sensor type %d\n", DHT_PARAM_TYPE);
+           "DHT sensor type %d\n", DHT22);
 
     /* Fix port parameter for digital sensor */
     dht_params_t my_params;
     my_params.pin = GPIO_PIN(PORT_A, 10);
-    my_params.type = DHT_PARAM_TYPE;
+    my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
 
     /* Initialize digital sensor */

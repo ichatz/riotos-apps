@@ -11,6 +11,7 @@ This repository provides a collection of applications based on the [RIOT operati
 - [Measuring Ambient Temperature and Humidity](temperature_humidity) - The application demonstrates how to use a digital sensor through the provided RIOT driver.
     - The application provides some insights on the inner functionality of the PM module of RIOT OS.
   - Some details are also provided on how to measure the power consumption of an IoT board.
+  - A [video tutorial on using the DHT22 sensor](https://youtu.be/0Z0uEQ21pL4) is available on YouTube.
 
 ## STM32 Nucleo-64 F401RE development board
 

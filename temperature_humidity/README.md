@@ -2,6 +2,8 @@
 
 Measure the ambient temperature and humidity with an [STM32 Nucleo-64 F401RE development board](https://www.st.com/en/evaluation-tools/nucleo-f401re.html) and the [RIOT operating system](https://github.com/RIOT-OS/RIOT).
 
+A [video tutorial on using the DHT22 sensor](https://youtu.be/0Z0uEQ21pL4) is available on YouTube.
+
 ## For this application we will use
 - STM32 Nucleo-64 F401RE
 - DHT22 digital sensor
