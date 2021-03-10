@@ -48,6 +48,10 @@
   \setbeamercolor*{fine separation line}{}
 }
 
+\newcounter{saveenumi}
+\newcommand{\seti}{\setcounter{saveenumi}{\value{enumi}}}
+\newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
+
 \pgfdeclareimage[height=1cm]{logoRIOT}{fig/RIOT_logo.png}
 \pgfdeclareimage[height=1cm]{logoSTM32}{fig/STM32_logo.png}
 
@@ -99,14 +103,25 @@ Required hardware components:
 
 \begin{itemize}
 	
-\item STM32 Nucleo-64 F401RE
+\item<1-> STM32 Nucleo-64 F401RE
 
-\item DHT22 digital sensor
+\item<2-> DHT22 digital sensor
 
-\item 3 Female to male jumper wires
+\item<3> 3 Female to male jumper wires
 
 \end{itemize}
 \end{frame}
+
+
+
+%_____________________________________________________________
+\begin{frame}{}
+\vspace{.2cm}
+\hspace*{1cm}
+\includegraphics[width=.65\textwidth]{circuit_bb}
+\end{frame}
+
+
 
 
 %_____________________________________________________________
@@ -126,13 +141,13 @@ Required hardware components:
 
 \end{itemize}
 
-\item The DATA wire used for communication between STM32 MCU and the DHT22.
+\item<2> The DATA wire used for communication between STM32 MCU and the DHT22.
 
 \begin{itemize}
 
-\item A 4.7K or 10K pull-up resistor is used to bring the bus in an IDLE state when there is no communication taking place.
+\item A $4.7 K\Omega$ or $10 K\Omega$ pull-up resistor is used to bring the bus in an IDLE state when there is no communication taking place.
 
-\item  A continuous HIGH on the line denote an IDLE state.
+\item A continuous HIGH on the line denote an IDLE state.
 
 \item The STM32 MCU acts as the bus controller and hence is responsible for initiating communication (i.e., read).
 
@@ -153,11 +168,11 @@ Required hardware components:
 \begin{frame}{DHT22 Communication Protocol}
 \begin{enumerate}
 
-\item The STM32 MCU pulls it to a LOW for 18ms and HIGH for around 20 to 40us.
-\item DHT22 detects a START and responds by pulling the line LOW for 80$\mu$s.
-\item DHT22 pulls it HIGH for 80$\mu$s which indicates that it is ready to send 40 bits  data.
-\item Each bit starts with a 50$\mu$s LOW followed by 26-28$\mu$s for a ``0'' or 70$\mu$s for a ``1''.
-\item To ends, the Line is pulled HIGH by the pull-up resistor and enters IDLE state.
+\item<1-> The STM32 MCU pulls it to a LOW for 18ms and HIGH for around $20 \ldots 40\mu s$.
+\item<2-> DHT22 detects a START and responds by pulling the line LOW for $80\mu$s.
+\item<3-> DHT22 pulls it HIGH for $80\mu$s which indicates that it is ready to send $40$ bits  data.
+\item<4-> A bit starts with a $50 \mu$s LOW followed by $26-28\mu$s for a ``0'' or $70\mu$s for a ``1''.
+\item<5> To ends, the Line is pulled HIGH by the pull-up resistor and enters IDLE state.
 
 \end{enumerate}
 
@@ -170,11 +185,11 @@ Required hardware components:
 \begin{frame}{DHT22 Data Format}
 \begin{enumerate}
 
-\item 1st Byte: Relative Humidity Integral Data in \% (Integer Part)
-\item 2nd Byte: Relative Humidity Decimal Data in \% (Fractional Part) – Zero for DHT11
-\item 3rd Byte: Temperature Integral in Degree Celsius (Integer Part)
-\item 4th Byte: Temperature in Decimal Data in \% (Fractional Part) – Zero for DHT11
-\item 5th Byte: Checksum (Last 8 bits of {1st Byte + 2nd Byte + 3rd Byte+ 4th Byte})
+\item<1-> 1st Byte: Relative Humidity Integral Data in \% (Integer Part)
+\item<2-> 2nd Byte: Relative Humidity Decimal Data in \% (Fractional Part) – Zero for DHT11
+\item<3-> 3rd Byte: Temperature Integral in Degree Celsius (Integer Part)
+\item<4-> 4th Byte: Temperature in Decimal Data in \% (Fractional Part) – Zero for DHT11
+\item<5-> 5th Byte: Checksum (Last 8 bits of {1st Byte + 2nd Byte + 3rd Byte+ 4th Byte})
 
 \end{enumerate}
 
@@ -184,12 +199,6 @@ Required hardware components:
 
 
 
-%_____________________________________________________________
-\begin{frame}{}
-\hspace*{1cm}
-\includegraphics[width=.65\textwidth]{circuit_bb}
-\end{frame}
-
 
 
 
@@ -198,6 +207,125 @@ Required hardware components:
 \logo{\pgfuseimage{logoRIOT}}
 
 
+%_____________________________________________________________
+\begin{frame}[fragile]{Creating a new application in RIOT OS -- Step 1} 
+\begin{columns}
+
+\column{.5\textwidth}
+\begin{enumerate}
+
+\item<1-> Identify location of RIOT folder\\e.g., \alert{\mintinline{bash}{/home/ichatz/RIOT}}
+
+\item<2-> Create a new folder\\e.g., \alert{\mintinline{bash}{/home/ichatz/myapp}}
+
+\item<3-> Create a file named \mintinline{bash}{Makefile} using your favorite editor.
+
+\item<4-> Insert the contents provided here.
+
+\item<5-> Change QUIET from 0 $\rightarrow$ 1 to see the compiler invocation commands. 
+
+\item<6-> Change DEVELHELP from 1 $\rightarrow$ 0 to remove debug information.
+
+\seti
+
+\end{enumerate}
+
+\column{.55\textwidth}
+\vspace{-.5cm}
+\begin{exampleblock}{Makefile}
+\begin{minted}{c}
+APPLICATION = myapp
+
+BOARD ?= nucleo-f401re
+
+RIOTBASE ?= $(CURDIR)/../RIOT
+
+DEVELHELP ?= 1
+QUIET ?= 0
+
+include $(RIOTBASE)/Makefile.include
+\end{minted}
+\end{exampleblock}
+%$
+
+\end{columns}
+\vspace{5cm}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{Creating a new application in RIOT OS -- Step 2} 
+
+\begin{enumerate}
+
+\conti
+
+\item<1-> Create the file named \mintinline{bash}{main.c} file using your favorite editor.
+
+\item<2-> Insert the contents provided here.
+
+\seti
+
+\end{enumerate}
+
+\vspace{.5cm}
+
+\begin{exampleblock}{main.c}
+\begin{minted}{c}
+#include <stdio.h>
+
+int main(void) {
+    printf("RIOT empty app.\n");
+    return 0;
+}
+\end{minted}
+\end{exampleblock}
+%$
+
+\vspace{4cm}
+\end{frame}
+
+
+%_____________________________________________________________
+\begin{frame}[fragile]{Creating a new application in RIOT OS -- Step 3} 
+
+\begin{enumerate}
+
+\conti
+
+\item<1-> Open a terminal and go to the folder of the RIOT application\\
+e.g., \alert{\mintinline{bash}{/home/ichatz/myapp}}
+
+\item<2-> Compile the code using \mintinline{bash}{make}
+
+\item<3-> Program the STM32 board using \mintinline{bash}{make flash}
+
+\item<4-> Connect to the STM32 board through the USB to check debug output
+using \mintinline{bash}{make term}
+
+\end{enumerate}
+
+\vspace{.2cm}
+
+\begin{columns}
+
+\column{.7\textwidth}
+\begin{alertblock}{Command line}
+\begin{minted}{bash}
+ichatz:~/# cd myapp
+ichatz:~/myapp# make
+ichatz:~/myapp# make flash
+ichatz:~/myapp# make term
+\end{minted}
+\end{alertblock}
+%$
+
+\column{.2\textwidth}
+
+\end{columns}
+
+\vspace{4cm}
+\end{frame}
 
 
 %_____________________________________________________________
@@ -205,40 +333,42 @@ Required hardware components:
 \vspace{-.5cm}
 \begin{columns}
 
-\column{.5\textwidth}
+\column{.52\textwidth}
 \begin{exampleblock}{Makefile}
 \begin{minted}{c}
-# name of application
-APPLICATION = photocell
-
-# Path to the RIOT base directory:
-RIOTBASE ?= $(CURDIR)/../../RIOT
+APPLICATION = myapp
+BOARD ?= nucleo-f401re
+RIOTBASE ?= $(CURDIR)/../RIOT
 
 # Modules to include:
 USEMODULE += dht
 USEMODULE += fmt	
 
-# RIOT features
-FEATURES_OPTIONAL += periph_rtc
+DEVELHELP ?= 1
+QUIET ?= 0
+include $(RIOTBASE)/Makefile.include
 \end{minted}
 \end{exampleblock}
 %$
 
-\column{.4\textwidth}
+\column{.45\textwidth}
 
-\vspace{4.45cm}
+\vspace{1.45cm}
 
-We wish to use the \alert{DHT module}.\\
-\alert{FMT} = Format Module to help with the DHT protocol.
-
-\bigskip
-
-The \alert{RTC} module used for power management.
-
-\column{.1\textwidth}
+$\leftarrow$ We wish to use the \alert{DHT module}.\\
+$\leftarrow$ \alert{FMT} = Format Module to help with the DHT protocol.
 
 \end{columns}
-\vspace{4cm}
+\vspace{.5cm}
+\end{frame}
+
+
+
+%_____________________________________________________________
+\begin{frame}{}
+\vspace{.2cm}
+\hspace*{1cm}
+\includegraphics[width=.63\textwidth]{pinouts}
 \end{frame}
 
 
@@ -267,8 +397,11 @@ int main(void) {
 
 \end{itemize}
 
-\vspace{2cm}
+\vspace{5cm}
 \end{frame}
+
+
+
 
 
 %_____________________________________________________________
@@ -298,57 +431,27 @@ int main(void) {
 \vspace{2cm}
 \end{frame}
 
-%_____________________________________________________________
-\begin{frame}[fragile]{}
-
-\begin{exampleblock}{}
-\begin{minted}[fontsize=\small]{c}
-int main(void) {
-    const int mode = 0;
-    const int delay = 5;
-
-    printf("Setting wakeup from mode %d in %d seconds.\n", mode, delay);
-    fflush(stdout);
-
-    /* Setting a timer on the RTC */
-    struct tm time;
-    rtc_get_time(&time);
-    time.tm_sec += delay;
-    rtc_set_alarm(&time, callback_rtc, "Wakeup alarm");
-
-    /* Enter deep sleep mode */
-    pm_set(mode); 
-}
-\end{minted}
-\end{exampleblock}
-\vspace{2cm}
-\end{frame}
-
-
 
 %_____________________________________________________________
 \begin{frame}[fragile]{}
-\begin{itemize}
 
-\item Setting an alarm to the RTC requires a callback function.
-
-\end{itemize}
-
-\vspace{.5cm}
-
-\begin{exampleblock}{main.c}
-\begin{minted}{c}
-/**
- * Call-back function invoked when RTC alarm triggers wakeup.
- */
-static void callback_rtc(void *arg)
-{
-    puts(arg);
-}
+\begin{alertblock}{Command line}
+\begin{minted}{bash}
+ichatz:~/# cd myapp
+ichatz:~/myapp# make flash 
+ichatz:~/myapp# make term
+/home/ichatz/RIOT/dist/tools/pyterm/pyterm -p "/dev/ttyACM0" -b "115200"  
+Twisted not available, please install it if you want to use pyterm's JSON capabilities
+# Connect to serial port /dev/ttyACM0
+Welcome to pyterm!
+Type '/exit' to exit.
+# DHT sensor connected
+# DHT values - temp: 21.8°C - relative humidity: 46.9%
 \end{minted}
-\end{exampleblock}
-
+\end{alertblock}
+%$
 \vspace{2cm}
 \end{frame}
+
 \end{document}
 
