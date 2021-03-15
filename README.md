@@ -14,7 +14,7 @@ The applications are used as part of the hands-on activities of the [Internet of
   - The application provides some insights on the inner functionality of the PM module of RIOT OS.
   - Some details are also provided on how to measure the power consumption of an IoT board.
   - A [video tutorial on using the DHT22 sensor](https://youtu.be/0Z0uEQ21pL4) is available on YouTube.
-- [Displaying Messages oa TFT LCD received via MQTT-S](tft_mqttsn) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
+- [Displaying Messages on a TFT LCD received via MQTT-S](tft_mqtts) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
   - The application provides some insights on how to connect devices via SPI.
   - The application demonstrates how RIOT can provide network connectivity via USB to connect to connect to a MQTT-S broker.
 
