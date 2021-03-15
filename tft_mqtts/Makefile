@@ -18,13 +18,14 @@ USEMODULE += auto_init_gnrc_netif
 # Specify the mandatory networking modules for IPv6
 USEMODULE += gnrc_ipv6_default
 
-# Include MQTT-SN
+# Include MQTT-S client
 USEMODULE += emcute
 
 # Optimize network stack to for use with a single network interface
 USEMODULE += gnrc_netif_single
 
 USEMODULE += stdio_ethos
+USEMODULE += gnrc_uhcpc
 
 USEMODULE += xtimer
 
@@ -38,7 +39,6 @@ endif
 
 # include UHCP client
 USE_DHCPV6 ?= 0
-USEMODULE += gnrc_uhcpc
 
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the

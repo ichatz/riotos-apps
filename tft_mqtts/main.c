@@ -21,7 +21,6 @@
 #include <stdlib.h>
 
 #include "xtimer.h"
-#include "board.h"
 
 #include "periph/gpio.h"
 #include "periph/spi.h"
@@ -30,9 +29,7 @@
 #include "ucg_riotos.h"
 #include "logo.h"
 
-#include "msg.h"
 #include "net/emcute.h"
-#include "net/ipv6/addr.h"
 
 #ifndef EMCUTE_ID
 #define EMCUTE_ID           ("gertrud")
@@ -43,7 +40,6 @@
 #define TOPIC_MAXLEN        (64U)
 
 static char stack[THREAD_STACKSIZE_DEFAULT];
-static msg_t queue[8];
 
 static emcute_sub_t subscriptions[NUMOFSUBS];
 static char topics[NUMOFSUBS][TOPIC_MAXLEN];
@@ -91,12 +87,18 @@ static void on_pub(const emcute_topic_t *topic, void *data, size_t len)
             ucg_pos_y = ucg_font_height;
         }
 
+        int tot_chars = len_remaining;
+        if (len_remaining > ucg_max_width_chars)
+        {
+            tot_chars = ucg_max_width_chars;
+        }
+
         // Get substring based on maximum chars that fit on TFT screen
-        char subbuff[ucg_max_width_chars + 1];
-        memcpy( subbuff, &in[last_pos], ucg_max_width_chars);
-        subbuff[ucg_max_width_chars] = '\0';
-        len_remaining -= ucg_max_width_chars;
-        last_pos += ucg_max_width_chars;
+        char subbuff[tot_chars + 1];
+        memcpy(subbuff, &in[last_pos], tot_chars);
+        subbuff[tot_chars] = '\0';
+        len_remaining -= tot_chars;
+        last_pos += tot_chars;
 
         ucg_DrawString(&ucg, 10, ucg_pos_y, 0, subbuff);
         ucg_pos_y += ucg_font_height;
@@ -152,9 +154,6 @@ int setup_tft(void)
  */
 int setup_mqtt(void)
 {
-    /* the main thread needs a msg queue to be able to run `ping6`*/
-    msg_init_queue(queue, ARRAY_SIZE(queue));
-
     /* initialize our subscription buffers */
     memset(subscriptions, 0, (NUMOFSUBS * sizeof(emcute_sub_t)));
 
