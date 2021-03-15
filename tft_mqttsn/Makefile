@@ -1,5 +1,5 @@
 # name of your application
-APPLICATION = tft_mqttsn
+APPLICATION = tft_mqtts
 
 # If no BOARD is found in the environment, use this default:
 BOARD ?= nucleo-f401re
@@ -14,27 +14,21 @@ UPLINK ?= ethos
 # NOTE: 6LoWPAN will be included if IEEE802.15.4 devices are present
 USEMODULE += gnrc_netdev_default
 USEMODULE += auto_init_gnrc_netif
+
 # Specify the mandatory networking modules for IPv6
 USEMODULE += gnrc_ipv6_default
-# For testing we also include the ping6 command and some stats
-USEMODULE += gnrc_icmpv6_echo
+
 # Include MQTT-SN
 USEMODULE += emcute
-# Add also the shell, some shell commands
-USEMODULE += shell
-USEMODULE += shell_commands
-USEMODULE += ps
 
 # Optimize network stack to for use with a single network interface
 USEMODULE += gnrc_netif_single
 
 USEMODULE += stdio_ethos
 
-USEMODULE += ili9341
 USEMODULE += xtimer
 
 USEPKG += ucglib
-
 FEATURES_REQUIRED += periph_gpio periph_spi
 
 # Allow for env-var-based override of the nodes name (EMCUTE_ID)
@@ -57,6 +51,15 @@ QUIET ?= 1
 # Ethos/native TAP interface and UHCP prefix can be configured from make command
 TAP ?= tap0
 IPV6_PREFIX ?= fe80:2::/64
+
+# The Broker address, port and the default MQTT topic to subscribe.
+SERVER_ADDR = fe80::1
+SERVER_PORT = 1885
+MQTT_TOPIC = tft
+
+CFLAGS += -DSERVER_ADDR='"$(SERVER_ADDR)"'
+CFLAGS += -DSERVER_PORT=$(SERVER_PORT)
+CFLAGS += -DMQTT_TOPIC='"$(MQTT_TOPIC)"'
 
 ETHOS_BAUDRATE ?= 115200
 include $(CURDIR)/Makefile.ethos.conf
