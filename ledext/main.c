@@ -9,7 +9,7 @@
  * @{
  *
  * @file
- * @brief       Control a solid state relay via COAP.
+ * @brief       Control an external LED via the GPIO peripheral.
  *
  * @author      Ioannis Chatzigiannakis <ichatz@gmail.com>
  *

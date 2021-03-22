@@ -1,5 +1,5 @@
 # name of your application
-APPLICATION = relay_coap
+APPLICATION = ledext
 
 # If no BOARD is found in the environment, use this default:
 BOARD ?= nucleo-f401re
