@@ -228,6 +228,6 @@ static const adc_conf_t adc_config[] = {
 
 The above configuration defines only the ADC channels available through the ARDUINO® Uno V3 connectivity header CN8, pins A0..A5.
 
-The mapping of the ARDUINO® Uno V3 connectivity headers with the MCU's internal pins as well as the resolution of the ADC can be found in the [user manual UM1724 of the STM32 Nucleo F401RE board](https://www.st.com/resource/en/user_manual/dm00105823-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf). In particular [Figure 18, page 32](https://github.com/RIOT-OS/RIOT/blob/master/boards/nucleo-f401re/include/periph_conf.h) identifies that pin A0 is connected to the MCU's GPIO pin PA0.
+The mapping of the ARDUINO® Uno V3 connectivity headers with the MCU's internal pins as well as the resolution of the ADC can be found in the [user manual UM1724 of the STM32 Nucleo F401RE board](https://www.st.com/resource/en/user_manual/dm00105823-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf). In particular [Figure 18, page 32](https://www.st.com/resource/en/user_manual/dm00105823-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf) identifies that pin A0 is connected to the MCU's GPIO pin PA0.
 
 Looking into the [specifications of the STM32F401RE MCU](https://www.st.com/resource/en/datasheet/stm32f401re.pdf) that is used by the Nucleo-64 F401RE development board we identify that the PA0 port of the MCU is using channel 1.
