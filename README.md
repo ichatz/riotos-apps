@@ -6,7 +6,7 @@ The applications are used as part of the hands-on activities of the [Internet of
 
 ## List of Applications
 
-- [External LED Example](photocell) - The application demonstrates how to control an external LED through the GPIO module.
+- [External LED Example](ledext) - The application demonstrates how to control an external LED through the GPIO module.
   - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.
 - [Measuring Ambient Light Intensity](photocell) - The application demonstrates how to use an analog sensor through the ADC module.
   - The application provides some insights on the inner functionality of the XTIMER module of RIOT OS.
