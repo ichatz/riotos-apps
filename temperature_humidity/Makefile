@@ -13,7 +13,7 @@ RIOTBASE ?= $(CURDIR)/../../RIOT
 DEVELHELP ?= 1
 
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
+QUIET ?= 0
 
 # Modules to include:
 USEMODULE += dht
