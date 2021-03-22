@@ -2,7 +2,7 @@
 
 Make an simple external LED circuit with an [STM32 Nucleo-64 F401RE development board](https://www.st.com/en/evaluation-tools/nucleo-f401re.html) and the [RIOT operating system](https://github.com/RIOT-OS/RIOT).
 
-Introductory material on how to setup a new RIOT application is provided in the [blog entry in hackster.io](https://www.hackster.io/ichatz/using-a-digital-temperature-sensor-with-riot-os-a4c213).
+Introductory material on how to setup a new RIOT application is provided in the [blog entry in hackster.io](https://www.hackster.io/ichatz/control-external-led-using-riot-os-b626da).
 
 ## For this application we will use
 - STM32 Nucleo-64 F401RE
