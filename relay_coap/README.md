@@ -6,7 +6,7 @@ Drive an SSD Relay Module to control a 220V AC device with an [STM32 Nucleo-64 F
 
 Controlling a low-power external device, like a LED, can be achieved using the MCU's GPIO (General Purpose Input/Output) pins, like in [the example with the blinking LED](../ledext). Large power devices that require 110-240V cannot be controlled in this way. What is needed is an external circuit based on a relay switch that allows to controls the high voltage using the low voltage of the MCU. The external circuit also helps isolate the high voltage components from the low voltage ones.
 
-Introductory material on how to setup a new RIOT application is provided in the [blog entry in hackster.io](https://www.hackster.io/ichatz/control-external-led-using-riot-os-b626da).
+Introductory material on how to setup a new RIOT application is provided in the [blog entry in hackster.io](https://www.hackster.io/ichatz/drive-an-ssd-relay-module-using-riot-os-a59665).
 
 ## For this application we will use
 - STM32 Nucleo-64 F401RE
