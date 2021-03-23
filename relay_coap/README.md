@@ -23,8 +23,8 @@ The [STM32 Nucleo-64 F401RE](https://www.st.com/en/evaluation-tools/nucleo-f401r
 
 The [RIOT](https://github.com/RIOT-OS/RIOT) is an open-source microkernel-based operating system designed for very low memory and energy footprint suitable for embedded devices that depend on real-time capabilities. RIOT provides out-of-the-box support for a very wide low-power wireless and communication stacks, making it an ideal choice to build Internet of Things (IoT) platforms.
 
-## Hardware setup of an simple LED circuit with the STM32 Nucleo-64 F401RE board
 
+## Hardware setup of SSD relay module with the STM32 Nucleo-64 F401RE board
 In this circuit we use an SSD relay module to control a 220V lump. The benefit of using an SSD relay is that it contains no moving parts. Therefore, the mechanism does not wear-out with the continuous usage, theoretically supporting millions of activation/disactivation cycles. Additionally, the relay does not produce the characteristic noise of the moving parts used by electromagnetic relays.
 
 Note that the SSD relay module used in this example drives AC devices. Connecting a DC component, for example a LED, will not work as it should.
@@ -43,7 +43,7 @@ The switching contacts of the relay marked with as **AC** are used to interrupt 
 USEMODULE += periph_gpio
 ```
 
-In this example application we wish to make the LED blink periodically. For this reason we will use the _xtimer_ module that provides a high-level API to multiplex the available timers. We add the following line in the [Makefile](Makefile):
+In this example application we wish to switch on and off the Lightbulb periodically. For this reason we will use the _xtimer_ module that provides a high-level API to multiplex __the available timers. We add the following line in the [Makefile](Makefile):
 
 ```
 USEMODULE += xtimer
@@ -76,20 +76,20 @@ if (gpio_init(pin_out, GPIO_OUT)) {
 }
 ```
 
-Now we can make the LED blink periodically as follows:
+Now we can switch on and off the Lightbulb periodically as follows:
 
 ```
 while(1)
 {
-  printf("Set pin to HIGH\n");
+  printf("Set pin to HIGH and signal SSD to switch on lightbulb\n");
   gpio_set(pin_out);
 
-  xtimer_sleep(2);
+  xtimer_sleep(5);
 
-  printf("Set pin to LOW\n");
+  printf("Set pin to LOW and signal SSD to switch off lightbulb\n");
   gpio_clear(pin_out);
 
-  xtimer_sleep(2);
+  xtimer_sleep(5);
 }
 ```
 
@@ -108,8 +108,8 @@ At this point, given that RIOT along with the STM32 tool-chain are properly inst
 
 ```
 main(): This is RIOT! (Version: 2021.04-devel-200-g67e5a)
-RIOT led_ext application
+RIOT relay_coap application
 Control an external LED using RIOT GPIO module.
-Set pin to HIGH
-Set pin to LOW
+Set pin to HIGH and signal SSD to switch on lightbulb
+Set pin to LOW and signal SSD to switch off lightbulb
 ```
