@@ -6,10 +6,21 @@ The applications are used as part of the hands-on activities of the [Internet of
 
 ## List of Applications
 
+### Basic Networking
+- [IPv6 Networking via USB](udp_usb) - The application demonstrates how to network using the IPv6 stack over a serial USB device through the ETHOS and UHCP tools of RIOT OS.
+  - The application provides step by step instructions on how to setup a new RIOT application.
+  - The application use multi-threading to implement a UDP socket server.
+
+### Controlling Devices
 - [External LED Example](ledext) - The application demonstrates how to control an external LED through the GPIO device peripheral of RIOT OS.
   - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.
 - [Control High-voltage Devices using an SSD Relay Module](relay_coap) - The application demonstrates how to control an 220V Lighbulb by driving an SSD relay module using the GPIO device peripheral  of RIOT OS.
   - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.   
+- [Displaying Messages on a TFT LCD received via MQTT-S](tft_mqtts) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
+  - The application provides some insights on how to connect devices via SPI.
+  - The application demonstrates how RIOT can provide network connectivity via USB to connect to connect to a MQTT-S broker.
+
+### Reading Sensors
 - [Measuring Ambient Light Intensity](photocell) - The application demonstrates how to use an analog sensor through the ADC module.
   - The application provides some insights on the inner functionality of the XTIMER module of RIOT OS.
   - Some details are also provided on how IoT boards are defined in RIOT OS as part of the platform-independent layers.
@@ -18,9 +29,7 @@ The applications are used as part of the hands-on activities of the [Internet of
   - The application provides some insights on the inner functionality of the PM module of RIOT OS.
   - Some details are also provided on how to measure the power consumption of an IoT board.
   - A [video tutorial on using the DHT22 sensor](https://youtu.be/0Z0uEQ21pL4) is available on YouTube.
-- [Displaying Messages on a TFT LCD received via MQTT-S](tft_mqtts) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
-  - The application provides some insights on how to connect devices via SPI.
-  - The application demonstrates how RIOT can provide network connectivity via USB to connect to connect to a MQTT-S broker.
+
 
 
 ## STM32 Nucleo-64 F401RE development board
