@@ -24,7 +24,7 @@
 int main(void)
 {
     printf("RIOT led_ext application\n"
-           "Control an external LED using RIOT GPIO module.\n"
+           "Control an external LED using RIOT GPIO module.\n");
 
     gpio_t pin_out = GPIO_PIN(PORT_B, 5);
     if (gpio_init(pin_out, GPIO_OUT)) {
@@ -32,17 +32,16 @@ int main(void)
         return -1;
     }
 
-    while(1)
-    {
-      printf("Set pin to HIGH\n");
-      gpio_set(pin_out);
+    while (1) {
+        printf("Set pin to HIGH\n");
+        gpio_set(pin_out);
 
-      xtimer_sleep(2);
+        xtimer_sleep(2);
 
-      printf("Set pin to LOW\n");
-      gpio_clear(pin_out);
+        printf("Set pin to LOW\n");
+        gpio_clear(pin_out);
 
-      xtimer_sleep(2);
+        xtimer_sleep(2);
     }
 
     return 0;
