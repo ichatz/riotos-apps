@@ -43,7 +43,7 @@ The switching contacts of the relay marked with as **AC** are used to interrupt 
 USEMODULE += periph_gpio
 ```
 
-In this example application we wish to switch on and off the Lightbulb periodically. For this reason we will use the _xtimer_ module that provides a high-level API to multiplex __the available timers. We add the following line in the [Makefile](Makefile):
+In this example application we wish to switch on and off the Lightbulb periodically. For this reason we will use the _xtimer_ module that provides a high-level API to multiplex the available timers. We add the following line in the [Makefile](Makefile):
 
 ```
 USEMODULE += xtimer
