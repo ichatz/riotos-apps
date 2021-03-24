@@ -11,25 +11,29 @@ The applications are used as part of the hands-on activities of the [Internet of
   - The application provides step by step instructions on how to setup a new RIOT application.
   - The application use multi-threading to implement a UDP socket server.
 
-### Controlling Devices
-- [External LED Example](ledext) - The application demonstrates how to control an external LED through the GPIO device peripheral of RIOT OS.
-  - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.
-- [Control High-voltage Devices using an SSD Relay Module](relay_coap) - The application demonstrates how to control an 220V Lighbulb by driving an SSD relay module using the GPIO device peripheral  of RIOT OS.
-  - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.   
-- [Displaying Messages on a TFT LCD received via MQTT-S](tft_mqtts) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
-  - The application provides some insights on how to connect devices via SPI.
-  - The application demonstrates how RIOT can provide network connectivity via USB to connect to connect to a MQTT-S broker.
-
 ### Reading Sensors
 - [Measuring Ambient Light Intensity](photocell) - The application demonstrates how to use an analog sensor through the ADC module.
   - The application provides some insights on the inner functionality of the XTIMER module of RIOT OS.
   - Some details are also provided on how IoT boards are defined in RIOT OS as part of the platform-independent layers.
-  - A [video tutorial](https://youtu.be/Xw8a_NSvvvI) is available on YouTube.
+  - A [video tutorial](https://youtu.be/Xw8a_NSvvvI) is available on YouTube.  
 - [Measuring Ambient Temperature and Humidity](temperature_humidity) - The application demonstrates how to use a digital sensor through the provided RIOT driver.
   - The application provides some insights on the inner functionality of the PM module of RIOT OS.
   - Some details are also provided on how to measure the power consumption of an IoT board.
   - A [video tutorial on using the DHT22 sensor](https://youtu.be/0Z0uEQ21pL4) is available on YouTube.
+  - A [project on hackster.io](https://www.hackster.io/ichatz/using-a-digital-temperature-sensor-with-riot-os-a4c213) is also available.   
 
+### Controlling Devices
+- [External LED Example](ledext) - The application demonstrates how to control an external LED through the GPIO device peripheral of RIOT OS.
+  - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.
+  - A [project on hackster.io](https://www.hackster.io/ichatz/control-external-led-using-riot-os-b626da) is also available.   
+- [Control High-voltage Devices using an SSD Relay Module](relay_coap) - The application demonstrates how to control an 220V Lighbulb by driving an SSD relay module using the GPIO device peripheral  of RIOT OS.
+  - The application provides some insights on identifying the GPIO port and pin number through the MCU's developer manual.   
+  - The application requires to provide [IPv6 Networking via USB](udp_usb).
+  - A [project on hackster.io](https://www.hackster.io/ichatz/drive-an-ssd-relay-module-using-riot-os-a59665) is also available.
+- [Displaying Messages on a TFT LCD received via MQTT-S](tft_mqtts) - The application demonstrates how to use a TFT LCD through the provided RIOT package to display messages received from an MQTT topic.
+  - The application provides some insights on how to connect devices via SPI.
+  - The application demonstrates how RIOT can provide network connectivity via USB to connect to connect to a MQTT-S broker.
+  - The application requires to provide [IPv6 Networking via USB](udp_usb).   
 
 
 ## STM32 Nucleo-64 F401RE development board
